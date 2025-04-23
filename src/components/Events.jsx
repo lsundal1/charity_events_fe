@@ -4,11 +4,11 @@ import { useSearchParams } from "react-router-dom"
 import EventCard from "./eventCard"
 import Filters from "./Filters"
 
-export default function Events ({events, setEvents}) {
+export default function Events () {
 
     const [isLoading, setIsLoading] = useState(true)
     const [err, setErr] = useState(null)
-    
+    const [events, setEvents] = useState([])
     const [searchParams, setSearchParams] = useSearchParams();
     const orderQuery = searchParams.get("order");
     const cityQuery = searchParams.get("city");

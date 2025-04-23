@@ -25,7 +25,7 @@ export default function MyAccount () {
 
     return (
         <div className="flex gap-6 px-4">
-            <div className="card h-screen bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
+            <div className="card h-min bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
                 <div className="card-body">
                     <div className="Avatar">
                     

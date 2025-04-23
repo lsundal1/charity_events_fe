@@ -2,28 +2,45 @@ import { Link } from "react-router-dom"
 import { EventContext } from "../contexts/EventContext";
 import { UserContext } from "../contexts/UserContext";
 import { useContext, useEffect, useState } from "react";
-import { addAttendeeToEvent } from "../../axios";
+import { addAttendeeToEvent, removeAttendeeFromEvent } from "../../axios";
 
 export default function EventCard ({event}) {
 
   const { setEvent } = useContext(EventContext);
   const { user } = useContext(UserContext);
-  const [isAttending, setIsAttending] = useState(null)
   const [err, setErr] = useState(null)
+  const [attendees, setAttendees] = useState(event.attendees || []);
 
-  const attendingQuery = event.attendees.filter((attendee) => attendee.user_id === user.user_id)
+
+  const isAttending = attendees.some(a => a.user_id === user.user_id);
 
   useEffect(() => {
-    attendingQuery.length === 1? setIsAttending(true) : setIsAttending(false)
-    console.log(attendingQuery)
+    setEvent(event) 
   }, [user])
 
   const handleSignUp = () => {
-    addAttendeeToEvent(event.event_id, {user_id: user.user_id}).then(() => {
-    }).catch((err) => {
-      setErr(err.message)
-    })
-  }
+    addAttendeeToEvent(event.event_id, { user_id: user.user_id })
+      .then(() => {
+        setAttendees([...attendees, {
+          user_id: user.user_id,
+          avatar: user.avatar
+        }]);
+      })
+      .catch((err) => {
+        setErr(err.message);
+      });
+  };
+  
+  const handleCancelSignUp = () => {
+    removeAttendeeFromEvent(event.event_id, { data: { user_id: user.user_id } })
+      .then(() => {
+        setAttendees(attendees.filter(a => a.user_id !== user.user_id));
+      })
+      .catch((err) => {
+        setErr(err.message);
+      });
+  };
+  
 
   const url = `/events/${event.event_id}`
 
@@ -44,7 +61,7 @@ export default function EventCard ({event}) {
         <p>Location: {event.postcode}</p>
         
         <div className="avatar-group -space-x-6">
-        {event.attendees.map((attendee) => {
+        {attendees.map((attendee) => {
             return <div key={attendee.user_id} className="avatar">
             <div className="w-12">
               <img src={attendee.avatar} />
@@ -53,9 +70,12 @@ export default function EventCard ({event}) {
           })
         }
         </div>
-        <p><a>{isAttending? "You and " : null}{event.attendees.length} people are going to this event</a></p>
+        <p><a>{isAttending? `You and ${event.attendees.length -1} other people are going to this event` : `${event.attendees.length} people are going to this event`}</a></p>
         <div className="card-actions justify-end">
-          <button className="btn btn-primary" onClick={handleSignUp} disabled={isAttending}>{isAttending? "Attending" : "Sign Up"}</button>
+          {
+            !isAttending? <button className="btn btn-primary" onClick={handleSignUp}>Sign Up</button> : <button className="btn btn-secondary" onClick={handleCancelSignUp}>Cancel sign up</button>
+          }
+
         </div>
       </div>
     </div>
