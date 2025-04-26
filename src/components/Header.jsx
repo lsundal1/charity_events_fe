@@ -1,6 +1,8 @@
 import { Link, useNavigate } from 'react-router-dom'
 import { useContext } from 'react'
 import { UserContext } from '../contexts/UserContext'
+import { MdOutlineAdminPanelSettings } from "react-icons/md";
+
 
 export default function Header () {
 
@@ -33,12 +35,21 @@ export default function Header () {
                 <a className="btn btn-ghost text-xl">Charity Events</a>
             </div>
             <div className="navbar-end">
-            { user? <div className="avatar">
-            <div className="mask mask-squircle w-24">
-                <img src={user.avatar} />
-            </div>
-            </div> : null
-            }
+            {user && (
+                <div className="flex flex-col items-center gap-1"> {/* Stack vertically */}
+                <div className="avatar">
+                    <div className="mask mask-squircle w-24">
+                    <img src={user.avatar} alt="User Avatar" />
+                    </div>
+                </div>
+                {user.is_admin && (
+                    <div className="badge badge-accent flex items-center gap-1">
+                    <MdOutlineAdminPanelSettings className="text-sm" /> 
+                    Admin
+                    </div>
+                )}
+                </div>
+            )}
             </div>
         </div>
     )

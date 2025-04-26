@@ -1,15 +1,22 @@
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { fetchCities } from '../../axios'
 import { fetchCategories } from '../../axios'
+import { UserContext } from '../contexts/UserContext'
+import CreateEvent from './CreateEvent'
+import { useSearchParams } from 'react-router-dom'
 
 
-export default function Filters ({ setOrder, setCategory, setCity }) {
+export default function Filters ({ order, setOrder, setCategory, setCity, onEventChange }) {
 
     const [cities, setCities] = useState([])
     const [categories, setCategories] = useState([])
     
     const [loading, setIsLoading] = useState(true)
     const [err, setErr] = useState(null)
+
+    const [searchParams] = useSearchParams();
+
+    const { user } = useContext(UserContext);
 
     useEffect(() => {
         fetchCities().then(({data}) => {
@@ -44,15 +51,37 @@ export default function Filters ({ setOrder, setCategory, setCity }) {
                     })}
                 </select>
                 <legend className="fieldset-legend">Date</legend>
-                <div className="flex items-center gap-2">
-                    <input type="radio" name="radio-3" className="radio radio-neutral" defaultChecked value="ASC" onChange={(e) => setOrder(e.target.value)}/>
-                    <p><a>Ascending</a></p>
+
+                <div className="flex items-center gap-4">
+                    <input
+                        type="checkbox"
+                        className="toggle"
+                        checked={searchParams.get("order") === "DESC"}
+                        onChange={() => {
+                        const newOrder = searchParams.get("order") === "DESC" ? "ASC" : "DESC";
+                        setOrder(newOrder);
+                        }}
+                    />
+                    <span>
+                        Desc
+                    </span>
                 </div>
-                <div className="flex items-center gap-2">
-                    <input type="radio" name="radio-3" className="radio radio-neutral" value="DESC" onChange={(e) => setOrder(e.target.value)}/>
-                    <p><a>Descending</a></p>
-                </div>
-                
+
+                <br></br>
+
+                {user.is_admin? <div className="drawer drawer-end">
+                            <input id="my-drawer-4" type="checkbox" className="drawer-toggle" />
+                                <div className="drawer-content">
+                                    <label htmlFor="my-drawer-4" className="drawer-button btn btn-primary w-max">Add new event</label>
+                                </div>
+                                <div className="drawer-side">
+                                    <label htmlFor="my-drawer-4" aria-label="close sidebar" className="drawer-overlay"></label>
+                                    <ul className="menu bg-base-200 text-base-content min-h-full w-100 p-4">
+                                    
+                                    <CreateEvent onEventChange={onEventChange}/>
+                                    </ul>
+                                </div>
+                            </div> : null}
             </div>
         </div>
     )

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { fetchEvents } from "../../axios"
 import { useSearchParams } from "react-router-dom"
-import EventCard from "./eventCard"
+import EventCard from "./EventCard"
 import Filters from "./Filters"
 
 export default function Events () {
@@ -10,6 +10,8 @@ export default function Events () {
     const [err, setErr] = useState(null)
     const [events, setEvents] = useState([])
     const [searchParams, setSearchParams] = useSearchParams();
+    const [refreshKey, setRefreshKey] = useState(0) 
+
     const orderQuery = searchParams.get("order");
     const cityQuery = searchParams.get("city");
     const categoryQuery = searchParams.get("category");
@@ -43,12 +45,16 @@ export default function Events () {
             setIsLoading(false)
             setErr(err.message)
         })
-    }, [orderQuery, cityQuery, categoryQuery])
+    }, [orderQuery, cityQuery, categoryQuery, refreshKey])
+
+    const handleRefresh = () => {
+        setRefreshKey(prev => prev + 1);
+    }
 
     return (
         <div className="flex gap-6 px-4"> 
             <div className="w-64 sticky top-20 self-start">
-                <Filters setOrder={setOrder} setCategory={setCategory} setCity={setCity} />
+                <Filters setOrder={setOrder} setCategory={setCategory} setCity={setCity} onEventChange={handleRefresh}/>
             </div>
         <div className="flex-1">
         {
@@ -69,7 +75,7 @@ export default function Events () {
                 <div>
                 <ul>
                     {events.map((event) => (
-                        <EventCard key={event.event_id} event={event} />
+                        <EventCard key={event.event_id} event={event} onEventChange={handleRefresh} className="m-2"/>
                     ))}
                 </ul>
                 </div>

@@ -6,6 +6,7 @@ import Login from "./Login"
 import Header from "./Header"
 import EventPage from "./EventPage"
 import MyAccount from "./MyAccount"
+import Footer from "./Footer"
 
 function App() {
 
@@ -19,6 +20,7 @@ function App() {
         <Route path="/myAccount" element={<MyAccount />}></Route>
         <Route path="*" element={<Error />}/>
       </Routes>
+      <Footer/>
     </div>
   )
 }

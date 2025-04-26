@@ -40,3 +40,11 @@ export function addAttendeeToEvent(event_id, obj) {
 export function removeAttendeeFromEvent(event_id, obj) {
     return apiClient.delete(`/events/${event_id}/attendees`, obj)
 }
+
+export function createEvent(obj) {
+    return apiClient.post('/events', obj)
+}
+
+export function deleteEvent(event_id) {
+    return apiClient.delete(`/events/${event_id}`)
+}

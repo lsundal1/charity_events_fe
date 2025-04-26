@@ -4,6 +4,8 @@ import { useParams } from "react-router-dom";
 import { fetchEventByEventId } from "../../axios";
 import { addAttendeeToEvent, removeAttendeeFromEvent } from "../../axios";
 import MapComponent from "./Map";
+import { FaCalendarAlt, FaMapMarkerAlt } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
 export default function EventPage() {
     const { user } = useContext(UserContext);
@@ -12,7 +14,8 @@ export default function EventPage() {
     const [err, setErr] = useState(null);
     const [isAttending, setIsAttending] = useState(false);
     const [attendees, setAttendees] = useState([]);
-
+    const navigate = useNavigate();
+    
 
     useEffect(() => {
         fetchEventByEventId(event_id)
@@ -28,6 +31,16 @@ export default function EventPage() {
                 setErr(err.message);
             });
     }, [event_id, user.user_id]);
+
+    const generateGoogleCalendarUrl = (event) => {
+        const formatDate = (date) => encodeURIComponent(new Date(date).toISOString().replace(/-|:|\.\d\d\d/g,""));
+        const start = formatDate(event.start_time);
+        const end = formatDate(event.end_time);
+        const title = encodeURIComponent(event.title);
+        const details = encodeURIComponent(event.description);
+        const location = encodeURIComponent(event.postcode);
+        return `https://www.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=${start}/${end}&details=${details}&location=${location}&sf=true&output=xml`;
+    };
 
     const handleSignUp = () => {
         addAttendeeToEvent(event.event_id, { user_id: user.user_id })
@@ -53,6 +66,19 @@ export default function EventPage() {
                 setErr(err.message);
             });
     };
+
+    const formatEventDates = (event) => {
+        if (!event) return null;
+        const startDate = new Date(event.start_time);
+        const endDate = new Date(event.end_time);
+        
+        return {
+            date: startDate.toLocaleDateString('en-GB'), 
+            start: startDate.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' }),
+            end: endDate.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' })
+        };
+    };
+
     
     return (
             <div className="hero bg-base-200 min-h-screen">
@@ -60,6 +86,7 @@ export default function EventPage() {
                             <span className="loading loading-spinner loading-xl"></span>
                         </div> :  
             <div>
+                <button className="btn btn-primary mt-3" onClick={() => {navigate(-1)}}>Back</button>
                 <div className="hero-content flex-col lg:flex-row-reverse">
                     <img
                     src={event.category_img}
@@ -70,9 +97,16 @@ export default function EventPage() {
                         <div className="badge badge-primary">{event.city_name}</div>
                         <h1 className="text-5xl font-bold">{event.title}</h1>
                         <p className="py-6">{event.description}</p>
-                        <div className="badge badge-soft badge-secondary">{event.category_name}</div>
-                        <p>Date: {event.date}</p>
-                        <p>Location: {event.postcode}</p>
+                        <div className="badge badge-soft badge-secondary mb-2">{event.category_name}</div>
+                        <div className="flex items-center gap-2">
+                            <FaCalendarAlt className="text-gray-500" />
+                            <span>{formatEventDates(event).date}: {formatEventDates(event).start} - {formatEventDates(event).end}</span>
+                        </div>
+                        <div className="flex items-center gap-2 mb-2">
+                            <FaMapMarkerAlt className="text-gray-500" />
+                            <span>{event.postcode}</span>
+                        </div>
+
                         {!isAttending ? (
                             <button className="btn btn-primary" onClick={handleSignUp}>
                             Sign Up
@@ -94,8 +128,17 @@ export default function EventPage() {
                 })
                 }
                 <p><a>{isAttending? `You and ${attendees.length -1} other people are going to this event` : `${attendees.length} people are going to this event`}</a></p>
-                <div>
-                    <h1>Event Location</h1>
+                <a
+                href={generateGoogleCalendarUrl(event)}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn btn-outline btn-primary mt-2"
+                >
+                Add to Google Calendar
+                </a>
+                
+                <div className="mt-6 mb-6">
+                    <h1 className="font-bold text-3xl">Event Location: </h1>
                     <MapComponent postcode={event.postcode} />
                 </div>
             </div>
