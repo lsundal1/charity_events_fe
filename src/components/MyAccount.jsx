@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from "react"
 import { UserContext } from "../contexts/UserContext"
 import { fetchEventsByUserId } from "../../axios"
 import EventCard from "./EventCard"
+import { MdOutlineAdminPanelSettings } from "react-icons/md";
 
 export default function MyAccount () {
 
@@ -9,7 +10,10 @@ export default function MyAccount () {
     const [myEvents, setMyEvents] = useState([])
     const [err, setErr] = useState(null)
     const [isLoading, setIsLoading] = useState(true)
-    const [refreshKey, setRefreshKey] = useState(0)
+
+    const handleEventChange = (deletedId) => {
+    setMyEvents(prev => prev.filter(e => e.event_id !== deletedId));
+    };
 
     useEffect(() => {
         fetchEventsByUserId(user.user_id).then(({data}) => {
@@ -20,12 +24,8 @@ export default function MyAccount () {
             setIsLoading(false)
             setErr(err.message)
         })
-    }, [user.user_id, refreshKey])
+    }, [user.user_id, myEvents])
 
-
-    const handleRefresh = () => {
-        setRefreshKey(prev => prev + 1)
-    }
 
     return (
         <div>
@@ -36,31 +36,37 @@ export default function MyAccount () {
                     <span className="loading loading-spinner loading-xl"></span>
                 </div>
             ) : (
-            <div className="flex gap-6 px-4">
-            <div className="card h-min bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
-                <div className="card-body">
-                    <div className="Avatar">
-                    
-                    <div className="mask mask-squircle w-34">
-                        <img src={user.avatar} />
+                <div className="flex flex-col lg:flex-row gap-6 px-4">
+                    <div className="lg:w-64 top-20 h-fit">
+                    <div className="card bg-base-100 shadow-xl">
+                        <div className="card-body p-4">
+                        <div className="flex flex-col items-center">
+                            <div className="mask mask-squircle w-34 h-34 bg-amber-400">
+                            <img src={user.avatar} alt="User avatar" className="object-cover object-top w-full h-full"/>
+                            </div>
+                            <h1 className="text-2xl font-bold mt-2 text-center">{user.user_name}</h1>
+                            {user.is_admin && (
+                            <div className="badge badge-accent flex items-center gap-1">
+                            <MdOutlineAdminPanelSettings className="text-sm" />Admin</div>
+                            )}
+                        </div>
+                        </div>
                     </div>
-                        <h1 className="text-5xl font-bold">{user.user_name}</h1>
-                        <br></br>
-                        { user.is_admin? <h2 className="text-2xl font-bold">Admin</h2> : null }
+                    </div>
+                    <div className="flex-1 flex flex-col items-center">
+                    <h1 className="text-3xl font-bold mb-4 w-full text-center lg:text-left">
+                        My events:
+                    </h1>
+                    <div className="w-full max-w-4xl">
+                        <ul className="space-y-4">
+                        {myEvents.map((event) => (
+                            <EventCard key={event.event_id} event={event} onEventChange={handleEventChange}/>
+                        ))}
+                        </ul>
+                    </div>
                     </div>
                 </div>
-            </div>
-            
-            <div className="flex-1">
-                <h1 className="text-3xl font-bold mt-2 mb-2">My events:</h1>   
-                <ul>
-                    { myEvents.map((event) => (
-                        <EventCard key={event.event_id} event={event} onEventChange={handleRefresh}/>
-                    ))}
-                </ul>
-            </div> 
-            </div>)
-            }
+            )}
         </div>
     )
 }

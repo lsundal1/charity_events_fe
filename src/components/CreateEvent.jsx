@@ -104,9 +104,9 @@ export default function CreateEvent({onEventChange}) {
 
             onEventChange();
 
-            return document.getElementById('create_event').showModal()
-            
             setErr(null);
+
+            document.getElementById('create_event').showModal()
             
         } catch (error) {
             setErr(error.message || "Failed to create event");

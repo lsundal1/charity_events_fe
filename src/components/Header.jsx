@@ -16,7 +16,7 @@ export default function Header () {
         
     };
     return (
-        <div className="navbar bg-base-100 shadow-sm">
+        <div className="navbar bg-base-100 shadow-sm mb-3">
             <div className="navbar-start">
                 { user? <div className="dropdown">
                 <div tabIndex={0} role="button" className="btn btn-ghost btn-circle">
@@ -32,14 +32,14 @@ export default function Header () {
                 </div> : null}
             </div>
             <div className="navbar-center">
-                <a className="btn btn-ghost text-xl">Charity Events</a>
+                <a className="text-3xl font-bold">Charity Events</a>
             </div>
             <div className="navbar-end">
             {user && (
-                <div className="flex flex-col items-center gap-1"> {/* Stack vertically */}
+                <div className="flex flex-col items-center gap-1">
                 <div className="avatar">
-                    <div className="mask mask-squircle w-24">
-                    <img src={user.avatar} alt="User Avatar" />
+                    <div className="mask mask-circle w-20 h-20 bg-amber-400">
+                    <img src={user.avatar} alt="User Avatar" className="object-cover object-top w-full h-full"/>
                     </div>
                 </div>
                 {user.is_admin && (
