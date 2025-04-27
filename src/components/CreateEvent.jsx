@@ -106,7 +106,7 @@ export default function CreateEvent({onEventChange}) {
 
             setErr(null);
 
-            document.getElementById('create_event').showModal()
+            // document.getElementById('create_event').showModal()
             
         } catch (error) {
             setErr(error.message || "Failed to create event");
@@ -257,7 +257,7 @@ export default function CreateEvent({onEventChange}) {
                     </div>
                 </fieldset>
             </form>
-            <dialog id="create_event" className="modal">
+            {/* <dialog id="create_event" className="modal">
                 <div className="modal-box">
                 <h3 className="font-bold text-lg">Success!</h3>
                 <p className="py-4">Event created successfully.</p>
@@ -267,7 +267,7 @@ export default function CreateEvent({onEventChange}) {
                     </form>
                 </div>
                 </div>
-            </dialog>
+            </dialog> */}
         </div>
     );
 }

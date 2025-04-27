@@ -13,7 +13,6 @@ export default function Events () {
     const [refreshKey, setRefreshKey] = useState(0);
     const [showSuccess, setShowSuccess] = useState(false);
 
-
     const handleEventChange = (deletedId) => {
         setEvents(prev => prev.filter(e => e.event_id !== deletedId));
         setShowSuccess(true);
@@ -91,12 +90,11 @@ export default function Events () {
             <div className="w-full max-w-4xl">
                 <ul className="grid gap-4"> 
                     {events.map((event) => (
-                    <EventCard key={event.event_id} event={event} onEventChange={handleEventChange}/>
+                        <EventCard key={event.event_id} event={event} onEventChange={handleEventChange} setEvents={setEvents} />
                     ))}
                 </ul>
             </div>
             )}
-
         </div>
         </div>
     )

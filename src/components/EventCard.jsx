@@ -1,12 +1,12 @@
 import { Link, useNavigate, useLocation } from "react-router-dom"
 import { EventContext } from "../contexts/EventContext";
 import { UserContext } from "../contexts/UserContext";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { addAttendeeToEvent, removeAttendeeFromEvent, deleteEvent } from "../../axios";
 import { FaCalendarAlt, FaMapMarkerAlt } from "react-icons/fa";
 import { MdDirections } from "react-icons/md";
 
-export default function EventCard ({ event, onEventChange }) {
+export default function EventCard ({ event, onEventChange, setEvents, setMyEvents }) {
 
   const { setEvent } = useContext(EventContext);
   const { user } = useContext(UserContext);
@@ -75,23 +75,30 @@ export default function EventCard ({ event, onEventChange }) {
   const handleDeleteEvent = async () => {
 
     deleteEvent(event.event_id).then(() => {
+
+      console.log(event.event_id)
+
       if (onEventChange) {
         onEventChange(event.event_id); 
       }
       
-      if (isEventsPage) {setEvents(prev => prev.filter(e => e.event_id !== event.event_id))}  
+      if (isEventsPage) {
+        setEvents(prev => prev.filter(e => e.event_id !== event.event_id))
+      }  
     
-      if (isEventDetailPage) {navigate('/events', { replace: true })} 
+      if (isEventDetailPage) {
+        navigate('/events', { replace: true })
+      } 
       
-      if (isMyAccountPage) {setMyEvents(prev => prev.filter(e => e.event_id !== event.event_id))}
-    })
-    .then(() => {
-      onEventChange(event.event_id);
+      if (isMyAccountPage) {
+        setMyEvents(prev => prev.filter(e => e.event_id !== event.event_id))
+      }
     })
     .catch ((err) => {
       setErr(err.message);
     })
-};
+  };
+
 
   const url = `/events/${event.event_id}`
 
@@ -160,11 +167,11 @@ export default function EventCard ({ event, onEventChange }) {
               </div>
               <p><a>{isAttending? `You and ${event.attendees.length -1} other people are going to this event` : `${event.attendees.length} people are going to this event`}</a></p>
               {
-                user.is_admin? <a className="link link-primary" onClick={() => {document.getElementById('delete_event').showModal()}}>Delete event</a> : null
+                user.is_admin? <a className="link link-primary" onClick={() => {document.getElementById(`delete_event_${event.event_id}`).showModal()}}>Delete event</a> : null
               }
               <div className="card-actions justify-end">
                 {
-                  !isAttending? <button className="btn btn-primary" onClick={handleSignUp}>Sign Up</button> : <button className="btn btn-secondary" onClick={() => document.getElementById('cancel_sign_up').showModal()}>Cancel sign up</button>
+                  !isAttending? <button className="btn btn-primary" onClick={handleSignUp}>Sign Up</button> : <button className="btn btn-secondary" onClick={handleCancelSignUp}>Cancel sign up</button>
                 }
               </div>
             </div>
@@ -194,7 +201,7 @@ export default function EventCard ({ event, onEventChange }) {
         </div>
       </div>
     </dialog>
-    <dialog id="delete_event" className="modal">
+    <dialog id={`delete_event_${event.event_id}`} className="modal">
       <div className="modal-box">
         <h3 className="font-bold text-lg">Are you sure?</h3>
         <p className="py-4">Are you sure you would like to delete this event?</p>

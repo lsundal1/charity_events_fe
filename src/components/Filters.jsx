@@ -71,7 +71,7 @@ export default function Filters ({ order, setOrder, setCategory, setCity, onEven
 
                 {user.is_admin? <div className="drawer drawer-end">
                             <input id="my-drawer-4" type="checkbox" className="drawer-toggle" />
-                                <div className="drawer-content">
+                                <div className="drawer-content z-50">
                                     <label htmlFor="my-drawer-4" className="drawer-button btn btn-primary w-max">Add new event</label>
                                 </div>
                                 <div className="drawer-side">
