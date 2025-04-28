@@ -38,7 +38,8 @@ export default function Filters ({ setOrder, setCategory, setCity, onEventChange
     if (err) return <p>Error: {err}</p>;
 
     return (
-        <div className="drawer drawer-end w-64 sticky top-20 self-start h-fit">
+        <div className="drawer drawer-end w-64 top self-start h-fit">
+            
             <input id="event-drawer" type="checkbox" className="drawer-toggle" />
             
             <div className="drawer-content">
