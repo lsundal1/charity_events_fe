@@ -76,8 +76,6 @@ export default function EventCard ({ event, onEventChange, setEvents, setMyEvent
 
     deleteEvent(event.event_id).then(() => {
 
-      console.log(event.event_id)
-
       if (onEventChange) {
         onEventChange(event.event_id); 
       }
@@ -171,7 +169,7 @@ export default function EventCard ({ event, onEventChange, setEvents, setMyEvent
               }
               <div className="card-actions justify-end">
                 {
-                  !isAttending? <button className="btn btn-primary" onClick={handleSignUp}>Sign Up</button> : <button className="btn btn-secondary" onClick={handleCancelSignUp}>Cancel sign up</button>
+                  !isAttending? <button className="btn btn-primary" onClick={handleSignUp}>Sign Up</button> : <button className="btn btn-secondary" onClick={() => document.getElementById(`cancel_sign_up_${event.event_id}`).showModal()}>Cancel sign up</button>
                 }
               </div>
             </div>
@@ -190,7 +188,7 @@ export default function EventCard ({ event, onEventChange, setEvents, setMyEvent
         </div>
       </div>
     </dialog>
-    <dialog id="cancel_sign_up" className="modal">
+    <dialog id={`cancel_sign_up_${event.event_id}`} className="modal">
       <div className="modal-box">
         <h3 className="font-bold text-lg">Sorry to see you go...</h3>
         <p className="py-4">You're no longer attending this event.</p>

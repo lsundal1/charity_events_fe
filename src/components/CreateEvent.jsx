@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { createEvent, fetchCategories, fetchCities } from "../../axios";
 
-export default function CreateEvent({onEventChange}) {
+export default function CreateEvent({onEventChange, closeDrawer}) {
     const [cities, setCities] = useState([]);
     const [categories, setCategories] = useState([]);
     const [err, setErr] = useState(null);
@@ -102,11 +102,11 @@ export default function CreateEvent({onEventChange}) {
                 description: ""
             });
 
-            onEventChange();
+            onEventChange(null, "create");
+
+            closeDrawer();
 
             setErr(null);
-
-            // document.getElementById('create_event').showModal()
             
         } catch (error) {
             setErr(error.message || "Failed to create event");
@@ -197,7 +197,7 @@ export default function CreateEvent({onEventChange}) {
                         <input
                             type="text"
                             name="postcode"
-                            className={`input input-bordered w-full    ${postcodeError ? 'input-error' : ''}`}
+                            className={`input input-bordered w-full ${postcodeError ? 'input-error' : ''}`}
                             placeholder="e.g. SW1A 1AA"
                             value={request.postcode}
                             onChange={handlePostcodeChange}
@@ -257,17 +257,6 @@ export default function CreateEvent({onEventChange}) {
                     </div>
                 </fieldset>
             </form>
-            {/* <dialog id="create_event" className="modal">
-                <div className="modal-box">
-                <h3 className="font-bold text-lg">Success!</h3>
-                <p className="py-4">Event created successfully.</p>
-                <div className="modal-action">
-                    <form method="dialog">
-                    <button className="btn mr-3">Close</button>
-                    </form>
-                </div>
-                </div>
-            </dialog> */}
         </div>
     );
 }
