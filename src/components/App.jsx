@@ -7,6 +7,7 @@ import Header from "./Header"
 import EventPage1 from "./EventPage1"
 import MyAccount from "./MyAccount"
 import Footer from "./Footer"
+import CreateEvent1 from "./CreateEvent1"
 
 function App() {
 
@@ -19,6 +20,7 @@ function App() {
           <Route path="/events" element ={<Events />}></Route>
           <Route path="/events/:event_id" element={<EventPage1 />}></Route>
           <Route path="/myAccount" element={<MyAccount />}></Route>
+          <Route path="/createEvent" element={<CreateEvent1 />}></Route> 
           <Route path="*" element={<Error />}/>
         </Routes>
       </main>

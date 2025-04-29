@@ -1,12 +1,17 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { createEvent, fetchCategories, fetchCities } from "../../axios";
+import { useNavigate } from "react-router-dom";
 import { IoIosCloseCircle } from "react-icons/io";
+import { EventChangeContext } from "../contexts/EventChangeContext";
 
-export default function CreateEvent({onEventChange, closeDrawer}) {
+export default function CreateEvent1() {
+
     const [cities, setCities] = useState([]);
     const [categories, setCategories] = useState([]);
     const [err, setErr] = useState(null);
     const [postcodeError, setPostcodeError] = useState("");
+    const navigate = useNavigate();
+    const { handleEventChange } = useContext(EventChangeContext)
 
     const [request, setRequest] = useState({
         city_id: "",
@@ -65,20 +70,6 @@ export default function CreateEvent({onEventChange, closeDrawer}) {
         }
     };
 
-    const handleCancel = () => {
-        setRequest({
-            city_id: "",
-            title: "",
-            category_id: "",
-            date: "",
-            start_time: "",
-            end_time: "",
-            postcode: "",
-            description: ""
-        });
-        closeDrawer();
-    }
-
     const handleCreateEvent = async (e) => {
         e.preventDefault();
         
@@ -117,9 +108,9 @@ export default function CreateEvent({onEventChange, closeDrawer}) {
                 description: ""
             });
 
-            onEventChange(null, "create");
+            handleEventChange(null, "create");
 
-            closeDrawer();
+            navigate("/events")
 
             setErr(null);
             
@@ -129,16 +120,16 @@ export default function CreateEvent({onEventChange, closeDrawer}) {
     };
 
     return (
-        <div className="p-4 min-w-2/5 max-w-3/5">
-            <button onClick={handleCancel} className="flex gap-1"><IoIosCloseCircle size={22}/>Close
-            </button>
+        <div>
+        <button onClick={() => {navigate(-1)}} className="ml-2 flex gap-1"><IoIosCloseCircle size={22}/>Close</button>
+        <div className="p-4 max-w-md mx-auto">
             {err && <div className="alert alert-error mb-4">{err}</div>}
             
             <form onSubmit={handleCreateEvent}>
                 <fieldset className="fieldset bg-base-200 border-base-300 rounded-box border p-6 space-y-4">
                     <legend className="fieldset-legend text-lg font-semibold">Event details</legend>
 
-                    <div className="form-control w-full z-50">
+                    <div className="form-control w-full">
                         <label className="label">
                             <span className="label-text">Title</span>
                         </label>
@@ -274,6 +265,7 @@ export default function CreateEvent({onEventChange, closeDrawer}) {
                     </div>
                 </fieldset>
             </form>
+        </div>
         </div>
     );
 }

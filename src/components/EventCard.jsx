@@ -5,13 +5,15 @@ import { useContext, useState } from "react";
 import { addAttendeeToEvent, removeAttendeeFromEvent, deleteEvent } from "../../axios";
 import { FaCalendarAlt, FaMapMarkerAlt } from "react-icons/fa";
 import { MdDirections } from "react-icons/md";
+import { EventChangeContext } from "../contexts/EventChangeContext";
 
-export default function EventCard ({ event, onEventChange, setEvents, setMyEvents }) {
+export default function EventCard ({ event, setEvents, setMyEvents }) {
 
   const { setEvent } = useContext(EventContext);
   const { user } = useContext(UserContext);
   const [err, setErr] = useState(null)
   const [attendees, setAttendees] = useState(event.attendees || []);
+  const { handleEventChange } = useContext(EventChangeContext) 
 
   const location = useLocation();
 
@@ -76,9 +78,7 @@ export default function EventCard ({ event, onEventChange, setEvents, setMyEvent
 
     deleteEvent(event.event_id).then(() => {
 
-      if (onEventChange) {
-        onEventChange(event.event_id); 
-      }
+      handleEventChange(event.event_id); 
       
       if (isEventsPage) {
         setEvents(prev => prev.filter(e => e.event_id !== event.event_id))
@@ -120,7 +120,7 @@ export default function EventCard ({ event, onEventChange, setEvents, setMyEvent
             />
           </div>
       
-          <div className={`card-body ${isEventDetailPage ? "md:w-3/5" : "p-4"}`}>
+          <div className={`card-body ${isEventDetailPage ? "md:w-3/5" : "p-4"} z-0`}>
             <div className="badge badge-primary">{event.city_name}</div>
               <h2 className="card-title"><Link className={ isEventDetailPage? "text-4xl font-bold" : "link link-primary text-3xl"} to={url} onClick={(e) => setEvent(event)}>{event.title}</Link>
               </h2>

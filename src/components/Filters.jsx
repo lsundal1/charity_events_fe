@@ -3,8 +3,7 @@ import { fetchCities } from '../../axios'
 import { fetchCategories } from '../../axios'
 import { UserContext } from '../contexts/UserContext'
 import CreateEvent from './CreateEvent'
-import { useSearchParams } from 'react-router-dom'
-
+import { useSearchParams, useNavigate } from 'react-router-dom'
 
 export default function Filters ({ setOrder, setCategory, setCity, onEventChange }) {
 
@@ -12,8 +11,8 @@ export default function Filters ({ setOrder, setCategory, setCity, onEventChange
     const [categories, setCategories] = useState([])
     const [loading, setIsLoading] = useState(true)
     const [err, setErr] = useState(null)
-    const [showModal, setShowModal] = useState(false);
     const [searchParams] = useSearchParams();
+    const navigate = useNavigate();
 
     const { user } = useContext(UserContext);
 
@@ -32,15 +31,22 @@ export default function Filters ({ setOrder, setCategory, setCity, onEventChange
         })
     }, [])
 
-    if (loading) return <div className="flex justify-center items-center h-screen w-full">
-    <span className="loading loading-spinner loading-xl"></span>
+    const handleNavigate = () => {
+        navigate('/createEvent');
+    };
+
+    if (loading) return <div className="flex w-52 flex-col gap-4">
+    <div className="skeleton h-32 w-full"></div>
+    <div className="skeleton h-4 w-28"></div>
+    <div className="skeleton h-4 w-full"></div>
+    <div className="skeleton h-4 w-full"></div>
     </div>;
     if (err) return <p>Error: {err}</p>;
 
     return (
-        <div className="drawer drawer-end w-64 top self-start h-fit">
+        <div className="drawer drawer-end w-64 sticky top-20 self-start h-fit shadow-2xl">
             
-            <input id="event-drawer" type="checkbox" className="drawer-toggle" />
+            <input id="event-drawer" aria-label="close sidebar" type="checkbox" className="drawer-toggle" />
             
             <div className="drawer-content">
                 <div className="card-body">
@@ -76,20 +82,13 @@ export default function Filters ({ setOrder, setCategory, setCity, onEventChange
                         <span>Desc</span>
                     </div>
                     
-                    <div className="mt-4">
-                        <label 
-                            htmlFor="event-drawer" 
-                            className="btn btn-primary drawer-button"
-                        >
-                            Add new event
-                        </label>
-                    </div>
+                    <button className='btn btn-primary' onClick={handleNavigate}>Add new event</button>
                 </div>
             </div>
             
-            <div className="drawer-side z-50">
+            <div className="drawer-side">
                 <label htmlFor="event-drawer" className="drawer-overlay"></label>
-                <div className="menu p-4 w-80 min-h-full bg-base-200 text-base-content">
+                <div className="menu p-4 w-full min-h-full bg-base-200 text-base-content justify-center items-center z-50">
                     <CreateEvent
                         onEventChange={onEventChange}
                         closeDrawer={() => {

@@ -1,8 +1,9 @@
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import { fetchEvents } from "../../axios"
 import { useSearchParams } from "react-router-dom"
 import EventCard from "./EventCard"
 import Filters from "./Filters"
+import { EventChangeContext } from "../contexts/EventChangeContext"
 
 export default function Events () {
 
@@ -10,33 +11,7 @@ export default function Events () {
     const [err, setErr] = useState(null)
     const [events, setEvents] = useState([])
     const [searchParams, setSearchParams] = useSearchParams();
-    const [refreshKey, setRefreshKey] = useState(0);
-    const [successInfo, setSuccessInfo] = useState(null);
-    const [isFadingOut, setIsFadingOut] = useState(false);
-
-    const handleEventChange = (deletedId, actionType = "delete") => {
-        if (actionType === "delete") {
-        setEvents(prev => prev.filter(e => e.event_id !== deletedId));
-        setSuccessInfo({
-            message: "Event deleted",
-            type: "warning"
-        });
-        } else if (actionType === "create") {
-        setSuccessInfo({
-            message: "Your event has been created!",
-            type: "success"
-        });
-        setRefreshKey(prev => prev + 1);
-        }
-        
-        setTimeout(() => {
-            setIsFadingOut(true);
-            setTimeout(() => {
-                setSuccessInfo(null);
-                setIsFadingOut(false);
-            }, 500); 
-        }, 2500); 
-    };
+    const { refreshKey, successInfo, isFadingOut} = useContext(EventChangeContext)
 
     const orderQuery = searchParams.get("order");
     const cityQuery = searchParams.get("city");
@@ -82,11 +57,10 @@ export default function Events () {
                     setOrder={setOrder} 
                     setCategory={setCategory} 
                     setCity={setCity} 
-                    onEventChange={handleEventChange}
                     />
                 </div>
         
-                <div className="flex-1 flex flex-col items-center">
+                <div className="flex-1 flex flex-col justify-center items-center">
 
                     {successInfo && (
                     <div
@@ -130,7 +104,7 @@ export default function Events () {
                     <div className="w-full max-w-4xl">
                         <ul className="grid gap-4"> 
                             {events.map((event) => (
-                                <EventCard key={event.event_id} event={event} onEventChange={handleEventChange} setEvents={setEvents} />
+                                <EventCard key={event.event_id} event={event} setEvents={setEvents} />
                             ))}
                         </ul>
                     </div>
