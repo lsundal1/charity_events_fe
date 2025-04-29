@@ -63,7 +63,7 @@ export default function Filters ({ setOrder, setCategory, setCity, onEventChange
             </select>
             
             <legend className="fieldset-legend">Date</legend>
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-4 mb-3">
                 <input
                     type="checkbox"
                     className="toggle"
