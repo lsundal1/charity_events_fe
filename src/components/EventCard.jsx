@@ -79,7 +79,7 @@ export default function EventCard ({ event, setEvents, setMyEvents }) {
     deleteEvent(event.event_id).then(() => {
 
       handleEventChange(event.event_id); 
-      
+
       if (isEventsPage) {
         setEvents(prev => prev.filter(e => e.event_id !== event.event_id))
       }  
@@ -101,7 +101,7 @@ export default function EventCard ({ event, setEvents, setMyEvents }) {
   const url = `/events/${event.event_id}`
 
   return (
-    <div>
+    <div className="w-full flex justify-center">
     {
       err ? (
           <div>
@@ -109,7 +109,7 @@ export default function EventCard ({ event, setEvents, setMyEvents }) {
           <p>{err}</p>
           </div>
       ) : (
-        <div className={`card bg-base-100 shadow-sm mb-3 ${isEventDetailPage ? "w-full max-w-4xl" : "w-full max-w-4/5"}`}>
+        <div className={`card bg-base-100 shadow-sm mb-3 ${isEventDetailPage ? "w-full max-w-4xl" : "w-full max-w-2xl"}`}>
           <div className={isEventDetailPage ? "flex flex-col md:flex-row gap-6" : ""}>
           
           <div className={isEventDetailPage ? "w-full md:w-2/5" : "w-full"}>
@@ -120,7 +120,7 @@ export default function EventCard ({ event, setEvents, setMyEvents }) {
             />
           </div>
       
-          <div className={`card-body ${isEventDetailPage ? "md:w-3/5" : "p-4"} z-0`}>
+          <div className={`card-body ${isEventDetailPage ? "md:w-3/5" : "p-4 w-full max-w-m"}`}>
             <div className="badge badge-primary">{event.city_name}</div>
               <h2 className="card-title"><Link className={ isEventDetailPage? "text-4xl font-bold" : "link link-primary text-3xl"} to={url} onClick={(e) => setEvent(event)}>{event.title}</Link>
               </h2>

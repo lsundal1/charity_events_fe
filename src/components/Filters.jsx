@@ -34,7 +34,7 @@ export default function Filters ({ setOrder, setCategory, setCity, onEventChange
         navigate('/createEvent');
     };
 
-    if (loading) return <div className="flex w-52 flex-col gap-4">
+    if (loading) return <div className="flex w-62 h-112 flex-col gap-4">
     <div className="skeleton h-32 w-full"></div>
     <div className="skeleton h-4 w-28"></div>
     <div className="skeleton h-4 w-full"></div>
@@ -43,47 +43,41 @@ export default function Filters ({ setOrder, setCategory, setCity, onEventChange
     if (err) return <p>Error: {err}</p>;
 
     return (
-        <div className="drawer drawer-end w-64 sticky top-20 self-start h-fit shadow-2xl">
+        <div className="card-body lg:w-64 w-full lg:sticky lg:top-20 h-fit mx-auto lg:mx-0 shadow-2xl">
+            <h1 className="text-xl font-bold">Filters</h1>
             
-            <input id="event-drawer" aria-label="close sidebar" type="checkbox" className="drawer-toggle" />
+            <legend className="fieldset-legend">City</legend>
+            <select className="select select-bordered w-full" onChange={e => setCity(e.target.value)}>
+                <option>All</option>
+                {cities.map((city) => (
+                    <option key={city.city_id} value={city.city_id}>{city.city_name}</option>
+                ))}
+            </select>
             
-            <div className="drawer-content">
-                <div className="card-body">
-                    <h1 className="text-xl font-bold">Filters</h1>
-                    
-                    <legend className="fieldset-legend">City</legend>
-                    <select className="select select-bordered w-full" onChange={e => setCity(e.target.value)}>
-                        <option>All</option>
-                        {cities.map((city) => (
-                            <option key={city.city_id} value={city.city_id}>{city.city_name}</option>
-                        ))}
-                    </select>
-                    
-                    <legend className="fieldset-legend">Event type</legend>
-                    <select className="select select-bordered w-full" onChange={e => setCategory(e.target.value)}>
-                        <option>All</option>
-                        {categories.map((category) => (
-                            <option key={category.category_id} value={category.category_id}>{category.category_name}</option>
-                        ))}
-                    </select>
-                    
-                    <legend className="fieldset-legend">Date</legend>
-                    <div className="flex items-center gap-4">
-                        <input
-                            type="checkbox"
-                            className="toggle"
-                            checked={searchParams.get("order") === "DESC"}
-                            onChange={() => {
-                                const newOrder = searchParams.get("order") === "DESC" ? "ASC" : "DESC"
-                                setOrder(newOrder)
-                            }}
-                        />
-                        <span>Desc</span>
-                    </div>
-                    
-                    <button className='btn btn-primary' onClick={handleNavigate}>Add new event</button>
-                </div>
+            <legend className="fieldset-legend">Event type</legend>
+            <select className="select select-bordered w-full" onChange={e => setCategory(e.target.value)}>
+                <option>All</option>
+                {categories.map((category) => (
+                    <option key={category.category_id} value={category.category_id}>{category.category_name}</option>
+                ))}
+            </select>
+            
+            <legend className="fieldset-legend">Date</legend>
+            <div className="flex items-center gap-4">
+                <input
+                    type="checkbox"
+                    className="toggle"
+                    checked={searchParams.get("order") === "DESC"}
+                    onChange={() => {
+                        const newOrder = searchParams.get("order") === "DESC" ? "ASC" : "DESC"
+                        setOrder(newOrder)
+                    }}
+                />
+                <span>Desc</span>
             </div>
+            
+            <button className='btn btn-primary' onClick={handleNavigate}>Add new event</button>
         </div>
+        
     )
 }
