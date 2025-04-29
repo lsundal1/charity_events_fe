@@ -2,7 +2,6 @@ import { useContext, useEffect, useState } from 'react'
 import { fetchCities } from '../../axios'
 import { fetchCategories } from '../../axios'
 import { UserContext } from '../contexts/UserContext'
-import CreateEvent from './CreateEvent'
 import { useSearchParams, useNavigate } from 'react-router-dom'
 
 export default function Filters ({ setOrder, setCategory, setCity, onEventChange }) {
@@ -83,18 +82,6 @@ export default function Filters ({ setOrder, setCategory, setCity, onEventChange
                     </div>
                     
                     <button className='btn btn-primary' onClick={handleNavigate}>Add new event</button>
-                </div>
-            </div>
-            
-            <div className="drawer-side">
-                <label htmlFor="event-drawer" className="drawer-overlay"></label>
-                <div className="menu p-4 w-full min-h-full bg-base-200 text-base-content justify-center items-center z-50">
-                    <CreateEvent
-                        onEventChange={onEventChange}
-                        closeDrawer={() => {
-                            document.getElementById('event-drawer').checked = false
-                        }}
-                    />
                 </div>
             </div>
         </div>
