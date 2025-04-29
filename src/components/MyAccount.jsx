@@ -44,10 +44,11 @@ export default function MyAccount () {
                             <div className="mask mask-squircle w-34 h-34 bg-amber-400">
                             <img src={user.avatar} alt="User avatar" className="object-cover object-top w-full h-full"/>
                             </div>
-                            <h1 className="text-2xl font-bold mt-2 text-center">{user.user_name}</h1>
+                            <h1 className="text-2xl font-bold mt-2 text-center mb-3">{user.user_name}</h1>
                             {user.is_admin && (
                             <div className="badge badge-accent flex items-center gap-1">
-                            <MdOutlineAdminPanelSettings className="text-sm" />Admin</div>
+                                <MdOutlineAdminPanelSettings className="text-sm" />Admin
+                            </div>
                             )}
                         </div>
                         </div>
@@ -60,7 +61,7 @@ export default function MyAccount () {
                     <div className="w-full max-w-4xl">
                         <ul className="space-y-4">
                         {myEvents.map((event) => (
-                            <EventCard key={event.event_id} event={event} onEventChange={handleEventChange} setMyEvents={setMyEvents}/>
+                            <EventCard key={event.event_id} event={event} onEventChange={handleEventChange} myEvents={myEvents} setMyEvents={setMyEvents}/>
                         ))}
                         </ul>
                     </div>

@@ -68,6 +68,7 @@ export default function EventCard ({ event, setEvents, setMyEvents }) {
     removeAttendeeFromEvent(event.event_id, { data: { user_id: user.user_id } })
       .then(() => {
         setAttendees(attendees.filter(a => a.user_id !== user.user_id));
+        setMyEvents(setMyEvents.filter(e => e.event_id !== event.event_id))
       })
       .catch((err) => {
         setErr(err.message);
@@ -169,7 +170,7 @@ export default function EventCard ({ event, setEvents, setMyEvents }) {
               }
               <div className="card-actions justify-end">
                 {
-                  !isAttending? <button className="btn btn-primary" onClick={handleSignUp}>Sign Up</button> : <button className="btn btn-secondary" onClick={() => document.getElementById(`cancel_sign_up_${event.event_id}`).showModal()}>Cancel sign up</button>
+                  !isAttending? <button type="button" className="btn btn-primary" onClick={handleSignUp}>Sign Up</button> : <button type="button" className="btn btn-secondary" onClick={() => document.getElementById(`cancel_sign_up_${event.event_id}`).showModal()}>Cancel sign up</button>
                 }
               </div>
             </div>
