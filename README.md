@@ -15,10 +15,16 @@ bash
 npm install
 npm run dev
 ```
+Click on the link provided to view on desktop
+
+for mobile type your IP adress followed by a colon and then the port number 5173 e.g. 000.000.0.00:5173
+
 Live Site
-You can visit the site here: [Link coming soon]
+
+You can visit the site here: https://ls-charity-events.netlify.app/
 
 Features
+
 Users are greeted with a login page, where they can select either a normal user or an admin account.
 
 Once logged in, users can:
@@ -46,6 +52,8 @@ Admin users have additional permissions:
 Create events via the "Add New Event" button in the filters section.
 
 Delete events using the "Delete Event" button on each event card.
+
+Once you are finished browsing events, you can logout using the dropdown menu in the nav bar.
 
 We hope you find an inspiring event near you!
 
