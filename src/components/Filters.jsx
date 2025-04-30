@@ -1,10 +1,9 @@
 import { useContext, useEffect, useState } from 'react'
 import { fetchCities } from '../../axios'
 import { fetchCategories } from '../../axios'
-import { UserContext } from '../contexts/UserContext'
 import { useSearchParams, useNavigate } from 'react-router-dom'
 
-export default function Filters ({ setOrder, setCategory, setCity, onEventChange }) {
+export default function Filters ({ setOrder, setCategory, setCity }) {
 
     const [cities, setCities] = useState([])
     const [categories, setCategories] = useState([])
@@ -12,8 +11,6 @@ export default function Filters ({ setOrder, setCategory, setCity, onEventChange
     const [err, setErr] = useState(null)
     const [searchParams] = useSearchParams();
     const navigate = useNavigate();
-
-    const { user } = useContext(UserContext);
 
     useEffect(() => {
         fetchCities().then(({data}) => {
@@ -43,19 +40,19 @@ export default function Filters ({ setOrder, setCategory, setCity, onEventChange
     if (err) return <p>Error: {err}</p>;
 
     return (
-        <div className="card-body lg:w-64 w-full lg:sticky lg:top-20 h-fit mx-auto lg:mx-0 shadow-2xl">
+        <div className="card-body bg-base-200 lg:w-64 w-full lg:sticky lg:top-20 h-fit mx-auto lg:mx-0 shadow-xl">
             <h1 className="text-xl font-bold">Filters</h1>
             
-            <legend className="fieldset-legend">City</legend>
-            <select className="select select-bordered w-full" onChange={e => setCity(e.target.value)}>
+            <label htmlFor="city-select" className="fieldset-legend">City</label>
+            <select className="select select-bordered w-full" onChange={e => setCity(e.target.value)} aria-label="Select city">
                 <option>All</option>
                 {cities.map((city) => (
                     <option key={city.city_id} value={city.city_id}>{city.city_name}</option>
                 ))}
             </select>
             
-            <legend className="fieldset-legend">Event type</legend>
-            <select className="select select-bordered w-full" onChange={e => setCategory(e.target.value)}>
+            <label htmlFor="event-type-select" className="fieldset-legend">Event type</label>
+            <select id="event-type-select" className="select select-bordered w-full" onChange={e => setCategory(e.target.value)} aria-label="Select category">
                 <option>All</option>
                 {categories.map((category) => (
                     <option key={category.category_id} value={category.category_id}>{category.category_name}</option>
@@ -72,6 +69,7 @@ export default function Filters ({ setOrder, setCategory, setCity, onEventChange
                         const newOrder = searchParams.get("order") === "DESC" ? "ASC" : "DESC"
                         setOrder(newOrder)
                     }}
+                    aria-label="Select to show events in descending date order"
                 />
                 <span>Desc</span>
             </div>

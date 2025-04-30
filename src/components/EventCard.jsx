@@ -110,7 +110,7 @@ export default function EventCard ({ event, setEvents, setMyEvents }) {
           <p>{err}</p>
           </div>
       ) : (
-        <div className={`card bg-base-100 shadow-sm mb-3 ${isEventDetailPage ? "w-full max-w-4xl" : "w-full max-w-2xl"}`}>
+        <div className={`card shadow-xl mb-3 bg-base-200 ${isEventDetailPage ? "w-full max-w-4xl" : "w-full max-w-2xl"}`}>
           <div className={isEventDetailPage ? "flex flex-col md:flex-row gap-6" : ""}>
           
           <div className={isEventDetailPage ? "w-full md:w-2/5" : "w-full"}>
@@ -118,12 +118,13 @@ export default function EventCard ({ event, setEvents, setMyEvents }) {
               src={event.category_img}
               alt="category-img"
               className={`w-full h-auto ${isEventDetailPage ? "md:h-full object-cover rounded-t-lg md:rounded-l-lg md:rounded-t-none" : "rounded-t-lg"}`}
+              aria-label="category-img"
             />
           </div>
       
           <div className={`card-body ${isEventDetailPage ? "md:w-3/5" : "p-4 w-full max-w-m"}`}>
             <div className="badge badge-primary">{event.city_name}</div>
-              <h2 className="card-title"><Link className={ isEventDetailPage? "text-4xl font-bold" : "link link-primary text-3xl"} to={url} onClick={(e) => setEvent(event)}>{event.title}</Link>
+              <h2 className="card-title" aria-label="Event title"><Link className={ isEventDetailPage? "text-4xl font-bold" : "link link-primary text-3xl"} to={url} onClick={(e) => setEvent(event)}>{event.title}</Link>
               </h2>
               <p>{event.description}</p>
               <div className="badge badge-soft badge-secondary">{event.category_name}</div>

@@ -51,7 +51,7 @@ export default function Events () {
     return (
         <div className="flex flex-col justify-center items-center lg:flex-row gap-6 w-full max-w-7xl px-4">
         
-            <div className="lg:w-64 w-full lg:sticky lg:top-20 self-start h-fit mx-auto">
+            <div className="lg:w-64 w-full lg:sticky lg:top-20 self-start h-fit mx-auto" aria-label="Filters">
                 <Filters 
                 setOrder={setOrder} 
                 setCategory={setCategory} 

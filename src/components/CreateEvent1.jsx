@@ -155,6 +155,7 @@ export default function CreateEvent1() {
                             value={request.description}
                             onChange={handleInputChange}
                             required
+                            aria-label="Event title"
                         />
                     </div>
 
@@ -168,6 +169,7 @@ export default function CreateEvent1() {
                             value={request.category_id}
                             onChange={handleInputChange}
                             required
+                            aria-label="Select a category"
                         >
                             <option value="">Pick a category</option>
                             {categories.map((category) => (
@@ -188,6 +190,7 @@ export default function CreateEvent1() {
                             value={request.city_id}
                             onChange={handleInputChange}
                             required
+                            aria-label="Select a city"
                         >
                             <option value="">Pick a city</option>
                             {cities.map((city) => (
@@ -210,6 +213,7 @@ export default function CreateEvent1() {
                             value={request.postcode}
                             onChange={handlePostcodeChange}
                             required
+                            aria-label="Select postcode"
                         />
                         {postcodeError && (
                             <label className="label">
@@ -229,6 +233,7 @@ export default function CreateEvent1() {
                             value={request.date}
                             onChange={handleInputChange}
                             required
+                            aria-label="Select date"
                         />
                     </div>
 
@@ -242,6 +247,7 @@ export default function CreateEvent1() {
                                 className="input input-bordered w-full"
                                 onChange={(e) => handleTimeChange(e.target.value, 'start_time')}
                                 required
+                                aria-label="Select start time"
                             />
                         </div>
 
@@ -254,12 +260,13 @@ export default function CreateEvent1() {
                                 className="input input-bordered w-full"
                                 onChange={(e) => handleTimeChange(e.target.value, 'end_time')}
                                 required
+                                aria-label="Select end time"
                             />
                         </div>
                     </div>
 
                     <div className="pt-4">
-                        <button type="submit" className="btn btn-primary w-full">
+                        <button type="submit" className="btn btn-primary w-full" aria-label="Create event">
                             Create event
                         </button>
                     </div>

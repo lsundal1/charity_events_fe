@@ -30,14 +30,14 @@ export default function EventPage1() {
     return (
         <div>
             { err?(
-                <div>Sorry, we're having a problem... {err}</div>
+                <div aria-label="Error message">Sorry, we're having a problem... {err}</div>
             ) : isLoading? (
-                <div className="flex justify-center items-center h-screen">
+                <div className="flex justify-center items-center h-screen" aria-label="Loading">
                     <span className="loading loading-spinner loading-xl"></span>
                 </div>
             ) : (
                 <div> 
-                    <button className="btn btn-primary m-3" onClick={() => {navigate(-1)}}>Back</button>
+                    <button className="btn btn-primary m-3" onClick={() => {navigate(-1)}} aria-label="back-button">Back</button>
                     <div className="flex flex-col items-center">
                         <EventCard key={event.event_id} event={event}></EventCard>
                     </div>
