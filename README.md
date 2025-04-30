@@ -1,12 +1,52 @@
-# React + Vite
+Charity Events
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Welcome to Charity Events!
 
-Currently, two official plugins are available:
+This is a web app designed to be used on both desktop and mobile devices.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+The API is built using Express and hosted on Render. It interacts with a PostgreSQL database hosted on Supabase. The frontend is built with React and Axios.
 
-## Expanding the ESLint configuration
+Running Locally
+To run this repo in your local environment, use the following commands:
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+bash
+
+```
+npm install
+npm run dev
+```
+Live Site
+You can visit the site here: [Link coming soon]
+
+Features
+Users are greeted with a login page, where they can select either a normal user or an admin account.
+
+Once logged in, users can:
+
+View a list of charity events.
+
+Sort events by city, category, or date (ascending/descending).
+
+Click on an event title to view detailed information, including:
+
+A map with a pin on the event location.
+
+A button to "Add to Google Calendar."
+
+A link to "Get Directions."
+
+Users can sign up for events, which will be saved to their "My Account" section.
+
+If a user can no longer attend, they can cancel their sign-up.
+
+Admin Features
+
+Admin users have additional permissions:
+
+Create events via the "Add New Event" button in the filters section.
+
+Delete events using the "Delete Event" button on each event card.
+
+We hope you find an inspiring event near you!
+
+Happy browsing 🎉

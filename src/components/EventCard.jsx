@@ -127,7 +127,7 @@ export default function EventCard ({ event, setEvents, setMyEvents }) {
               <h2 className="card-title" aria-label="Event title"><Link className={ isEventDetailPage? "text-4xl font-bold" : "link link-primary text-3xl"} to={url} onClick={(e) => setEvent(event)}>{event.title}</Link>
               </h2>
               <p>{event.description}</p>
-              <div className="badge badge-soft badge-secondary">{event.category_name}</div>
+              <div className="badge badge-accent badge-secondary">{event.category_name}</div>
               <div className="flex items-center gap-2">
                 <FaCalendarAlt className="text-gray-500" />
                 <span>{startAndEnd.date}: {startAndEnd.start} - {startAndEnd.end}</span>
@@ -159,7 +159,7 @@ export default function EventCard ({ event, setEvents, setMyEvents }) {
               {attendees.map((attendee) => {
                   return <div key={attendee.user_id} className="avatar">
                   <div className="w-12">
-                    <img src={attendee.avatar} className="bg-amber-400 object-cover object-top w-full h-full"/>
+                    <img src={attendee.avatar} alt="User Avatar" className="bg-amber-400 object-cover object-top w-full h-full"/>
                   </div>
                 </div>
                 })

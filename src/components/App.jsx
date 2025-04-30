@@ -12,7 +12,7 @@ import CreateEvent1 from "./CreateEvent1"
 function App() {
 
   return (
-    <div className="min-h-screen flex flex-col" style={{backgroundColor: "#878E99"}}>
+    <div className="min-h-screen flex flex-col" style={{backgroundColor: "#d3d8eb"}}>
       <Header/>
       <main className="flex-1">
         <Routes>
