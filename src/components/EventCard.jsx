@@ -67,8 +67,12 @@ export default function EventCard ({ event, setEvents, setMyEvents }) {
   const handleCancelSignUp = () => {
     removeAttendeeFromEvent(event.event_id, { data: { user_id: user.user_id } })
       .then(() => {
-        setAttendees(attendees.filter(a => a.user_id !== user.user_id));
-        setMyEvents(setMyEvents.filter(e => e.event_id !== event.event_id))
+        if(isEventDetailPage){
+          setAttendees(attendees.filter(a => a.user_id !== user.user_id));
+        }
+        if(isMyAccountPage){
+          setMyEvents(setMyEvents.filter(e => e.event_id !== event.event_id))
+        }
       })
       .catch((err) => {
         setErr(err.message);
@@ -92,6 +96,7 @@ export default function EventCard ({ event, setEvents, setMyEvents }) {
       if (isMyAccountPage) {
         setMyEvents(prev => prev.filter(e => e.event_id !== event.event_id))
       }
+      setErr(null)
     })
     .catch ((err) => {
       setErr(err.message);
@@ -103,82 +108,73 @@ export default function EventCard ({ event, setEvents, setMyEvents }) {
 
   return (
     <div className="w-full flex justify-center">
-    {
-      err ? (
-          <div>
-          <h3>Sorry 😬 we're having a problem...</h3>
-          <p>{err}</p>
-          </div>
-      ) : (
-        <div className={`card shadow-xl mb-3 bg-base-200 ${isEventDetailPage ? "w-full max-w-4xl" : "w-full max-w-2xl"}`}>
-          <div className={isEventDetailPage ? "flex flex-col md:flex-row gap-6" : ""}>
-          
-          <div className={isEventDetailPage ? "w-full md:w-2/5" : "w-full"}>
-            <img 
-              src={event.category_img}
-              alt="category-img"
-              className={`w-full h-auto ${isEventDetailPage ? "md:h-full object-cover rounded-t-lg md:rounded-l-lg md:rounded-t-none" : "rounded-t-lg"}`}
-              aria-label="category-img"
-            />
-          </div>
-      
-          <div className={`card-body ${isEventDetailPage ? "md:w-3/5" : "p-4 w-full max-w-m"}`}>
-            <div className="badge badge-primary">{event.city_name}</div>
-              <h2 className="card-title" aria-label="Event title"><Link className={ isEventDetailPage? "text-4xl font-bold" : "link link-primary text-3xl"} to={url} onClick={(e) => setEvent(event)}>{event.title}</Link>
-              </h2>
-              <p>{event.description}</p>
-              <div className="badge badge-accent badge-secondary">{event.category_name}</div>
-              <div className="flex items-center gap-2">
-                <FaCalendarAlt className="text-gray-500" />
-                <span>{startAndEnd.date}: {startAndEnd.start} - {startAndEnd.end}</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <FaMapMarkerAlt className="text-gray-500" />
-                <span>{event.postcode}</span>
-              </div>
-              <div className="flex items-center gap-2">
-              <MdDirections className="text-gray-500"/>
-              <a 
-                href={`https://www.google.com/maps/dir/?api=1&destination=${formattedPostcode}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="link"
-              >
-                Get Directions
-              </a>
-              </div>
-              <a
-                href={generateGoogleCalendarUrl(event)}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn btn-outline btn-primary mt-2"
-              >
-                Add to Google Calendar
-              </a>
-              <div className="avatar-group -space-x-6">
-              {attendees.map((attendee) => {
-                  return <div key={attendee.user_id} className="avatar">
-                  <div className="w-12">
-                    <img src={attendee.avatar} alt="User Avatar" className="bg-amber-400 object-cover object-top w-full h-full"/>
-                  </div>
-                </div>
-                })
-              }
-              </div>
-              <p><a>{isAttending? `You and ${event.attendees.length -1} other people are going to this event` : `${event.attendees.length} people are going to this event`}</a></p>
-              {
-                user.is_admin? <a className="link link-primary" onClick={() => {document.getElementById(`delete_event_${event.event_id}`).showModal()}}>Delete event</a> : null
-              }
-              <div className="card-actions justify-end">
-                {
-                  !isAttending? <button type="button" className="btn btn-primary" onClick={handleSignUp}>Sign Up</button> : <button type="button" className="btn btn-secondary" onClick={() => document.getElementById(`cancel_sign_up_${event.event_id}`).showModal()}>Cancel sign up</button>
-                }
-              </div>
-            </div>
-          </div>  
+      <div className={`card shadow-xl mb-3 bg-base-200 ${isEventDetailPage ? "w-full max-w-4xl" : "w-full max-w-2xl"}`}>
+        <div className={isEventDetailPage ? "flex flex-col md:flex-row gap-6" : ""}>
+        
+        <div className={isEventDetailPage ? "w-full md:w-2/5" : "w-full"}>
+          <img 
+            src={event.category_img}
+            alt="category-img"
+            className={`w-full h-auto ${isEventDetailPage ? "md:h-full object-cover rounded-t-lg md:rounded-l-lg md:rounded-t-none" : "rounded-t-lg"}`}
+            aria-label="category-img"
+          />
         </div>
-      )
-    }
+    
+        <div className={`card-body ${isEventDetailPage ? "md:w-3/5" : "p-4 w-full max-w-m"}`}>
+          <div className="badge badge-primary">{event.city_name}</div>
+            <h2 className="card-title" aria-label="Event title"><Link className={ isEventDetailPage? "text-4xl font-bold" : "link link-primary text-3xl"} to={url} onClick={(e) => setEvent(event)}>{event.title}</Link>
+            </h2>
+            <p>{event.description}</p>
+            <div className="badge badge-accent badge-secondary">{event.category_name}</div>
+            <div className="flex items-center gap-2">
+              <FaCalendarAlt className="text-gray-500" />
+              <span>{startAndEnd.date}: {startAndEnd.start} - {startAndEnd.end}</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <FaMapMarkerAlt className="text-gray-500" />
+              <span>{event.postcode}</span>
+            </div>
+            <div className="flex items-center gap-2">
+            <MdDirections className="text-gray-500"/>
+            <a 
+              href={`https://www.google.com/maps/dir/?api=1&destination=${formattedPostcode}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="link"
+            >
+              Get Directions
+            </a>
+            </div>
+            <a
+              href={generateGoogleCalendarUrl(event)}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn btn-outline btn-primary mt-2"
+            >
+              Add to Google Calendar
+            </a>
+            <div className="avatar-group -space-x-6">
+            {attendees.map((attendee) => {
+                return <div key={attendee.user_id} className="avatar">
+                <div className="w-12">
+                  <img src={attendee.avatar} alt="User Avatar" className="bg-amber-400 object-cover object-top w-full h-full"/>
+                </div>
+              </div>
+              })
+            }
+            </div>
+            <p><a>{isAttending? `You and ${event.attendees.length -1} other people are going to this event` : `${event.attendees.length} people are going to this event`}</a></p>
+            {
+              user.is_admin? <a className="link link-primary" onClick={() => {document.getElementById(`delete_event_${event.event_id}`).showModal()}}>Delete event</a> : null
+            }
+            <div className="card-actions justify-end">
+              {
+                !isAttending? <button type="button" className="btn btn-primary" onClick={handleSignUp}>Sign Up</button> : <button type="button" className="btn btn-secondary" onClick={() => document.getElementById(`cancel_sign_up_${event.event_id}`).showModal()}>Cancel sign up</button>
+              }
+            </div>
+          </div>
+        </div>  
+      </div>
     <dialog id="sign_up" className="modal">
       <div className="modal-box">
         <h3 className="font-bold text-lg">Congrats!</h3>

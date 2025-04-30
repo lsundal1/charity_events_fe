@@ -58,13 +58,17 @@ export default function MyAccount () {
                     <h1 className="text-3xl font-bold mb-4 w-full text-center lg:text-left">
                         My events:
                     </h1>
+                { myEvents.length === 0? 
+                (<div className="text-center w-full"> 
+                <h1 className="text-5xl font-bold">You've not signed up to any events yet!</h1>
+                </div>) : (
                     <div className="w-full max-w-4xl">
                         <ul className="space-y-4">
                         {myEvents.map((event) => (
                             <EventCard key={event.event_id} event={event} onEventChange={handleEventChange} myEvents={myEvents} setMyEvents={setMyEvents}/>
                         ))}
                         </ul>
-                    </div>
+                    </div>)}
                     </div>
                 </div>
             )}
