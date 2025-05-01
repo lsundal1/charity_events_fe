@@ -30,7 +30,7 @@ export default function EventPage1() {
     return (
         <div>
             { err?(
-                <div aria-label="Error message">Sorry, we're having a problem... {err}</div>
+                <div aria-label="Error message" className="text text-3xl font-bold">Sorry, we're having a problem... {err}</div>
             ) : isLoading? (
                 <div className="flex justify-center items-center h-screen" aria-label="Loading">
                     <span className="loading loading-spinner loading-xl"></span>

@@ -88,7 +88,7 @@ export default function Events () {
 
                 {err ? (
                 <div className="mt-0"> 
-                    <h3>Sorry 😬 we're having a problem...</h3>
+                    <h3 className="text text-3xl font-bold">Sorry 😬 we're having a problem...</h3>
                     <p>{err}</p>
                 </div>
                 ) : isLoading ? (

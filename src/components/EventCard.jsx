@@ -67,7 +67,7 @@ export default function EventCard ({ event, setEvents, setMyEvents }) {
   const handleCancelSignUp = () => {
     removeAttendeeFromEvent(event.event_id, { data: { user_id: user.user_id } })
       .then(() => {
-        if(isEventDetailPage){
+        if(isEventDetailPage || isEventsPage){
           setAttendees(attendees.filter(a => a.user_id !== user.user_id));
         }
         if(isMyAccountPage){
@@ -76,6 +76,7 @@ export default function EventCard ({ event, setEvents, setMyEvents }) {
       })
       .catch((err) => {
         setErr(err.message);
+        console.log(err)
       });
   };
 

@@ -65,7 +65,7 @@ export default function MyAccount () {
                     <div className="w-full max-w-4xl">
                         <ul className="space-y-4">
                         {myEvents.map((event) => (
-                            <EventCard key={event.event_id} event={event} onEventChange={handleEventChange} myEvents={myEvents} setMyEvents={setMyEvents}/>
+                            <EventCard key={event.event_id} event={event} onEventChange={handleEventChange} setMyEvents={setMyEvents}/>
                         ))}
                         </ul>
                     </div>)}

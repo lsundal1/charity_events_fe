@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from 'react'
 import { fetchCities } from '../../axios'
 import { fetchCategories } from '../../axios'
 import { useSearchParams, useNavigate } from 'react-router-dom'
+import { UserContext } from '../contexts/UserContext'
 
 export default function Filters ({ setOrder, setCategory, setCity }) {
 
@@ -11,6 +12,7 @@ export default function Filters ({ setOrder, setCategory, setCity }) {
     const [err, setErr] = useState(null)
     const [searchParams] = useSearchParams();
     const navigate = useNavigate();
+    const { user } = useContext(UserContext);
 
     useEffect(() => {
         fetchCities().then(({data}) => {
@@ -73,8 +75,8 @@ export default function Filters ({ setOrder, setCategory, setCity }) {
                 />
                 <span>Desc</span>
             </div>
+            { user.is_admin? <button className='btn btn-primary' onClick={handleNavigate}>Add new event</button> : null}
             
-            <button className='btn btn-primary' onClick={handleNavigate}>Add new event</button>
         </div>
         
     )

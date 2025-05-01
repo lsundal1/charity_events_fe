@@ -1,5 +1,4 @@
-import { createContext, useState } from "react";
-import { useEffect } from "react";
+import { createContext, useState, useEffect } from "react";
 
 export const UserContext = createContext();
 
@@ -10,6 +9,12 @@ export const UserProvider = ({ children }) => {
         return storedUser ? JSON.parse(storedUser) : null;
     });
 
+    const [hasLoaded, setHasLoaded] = useState(false);
+
+    useEffect(() => {
+        setHasLoaded(true);
+    }, []);
+
     useEffect(() => {
         if (user) {
             localStorage.setItem("user", JSON.stringify(user));
@@ -19,7 +24,7 @@ export const UserProvider = ({ children }) => {
     }, [user]);
 
     return (
-        <UserContext.Provider value={{ user, setUser }}>
+        <UserContext.Provider value={{ user, setUser, hasLoaded }}>
             {children}
         </UserContext.Provider>
     );
