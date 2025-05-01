@@ -4,6 +4,7 @@ import { useSearchParams } from "react-router-dom"
 import EventCard from "./EventCard"
 import Filters from "./Filters"
 import { EventChangeContext } from "../contexts/EventChangeContext"
+import BackToTopButton from "./BackToTop"
 
 export default function Events () {
 
@@ -101,6 +102,7 @@ export default function Events () {
                 </div>
                 ) : (
                 <div className="w-full max-w-4xl justify-center items-center">
+                    <BackToTopButton />
                     <ul className="grid grid-cols-1 gap-4 justify-items-center"> 
                         {events.map((event) => (
                             <EventCard key={event.event_id} event={event} setEvents={setEvents} />

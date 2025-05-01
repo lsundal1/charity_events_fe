@@ -3,6 +3,7 @@ import { UserContext } from "../contexts/UserContext"
 import { fetchEventsByUserId } from "../../axios"
 import EventCard from "./EventCard"
 import { MdOutlineAdminPanelSettings } from "react-icons/md";
+import BackToTopButton from "./BackToTop";
 
 export default function MyAccount () {
 
@@ -63,6 +64,7 @@ export default function MyAccount () {
                 <h1 className="text-5xl font-bold">You've not signed up to any events yet!</h1>
                 </div>) : (
                     <div className="w-full max-w-4xl">
+                        <BackToTopButton/>
                         <ul className="space-y-4">
                         {myEvents.map((event) => (
                             <EventCard key={event.event_id} event={event} onEventChange={handleEventChange} setMyEvents={setMyEvents}/>
