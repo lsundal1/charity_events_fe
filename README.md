@@ -21,7 +21,9 @@ for mobile type your IP adress followed by a colon and then the port number 5173
 
 Live Site
 
-You can visit the site here: https://ls-charity-events.netlify.app/
+To see a walkthrough demo of this web app on mobile click here: https://vimeo.com/1080636188?share=copy
+
+You can visit the publicly hosted website here: https://ls-charity-events.netlify.app/
 
 Features
 
