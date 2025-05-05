@@ -48,7 +48,11 @@ export default function Login () {
 
     return (
         <div className="hero bg-base-200 min-h-screen">
-            { err? <div></div> : isLoading? <div></div> : <div className="hero-content flex-col lg:flex-row-reverse">
+            { err? ( <div className="mt-0"> 
+                    <h3 className="text text-3xl font-bold">Sorry 😬 we're having a problem...</h3>
+                    <p>{err}</p>
+                </div>) : isLoading? <div className="flex justify-center items-center h-screen w-full">
+                <span className="loading loading-spinner loading-xl"></span></div>: <div className="hero-content flex-col lg:flex-row-reverse">
                 <div className="text-center lg:text-left">
                     <h1 className="text-5xl font-bold">Login now!</h1>
                     <p className="py-6">
